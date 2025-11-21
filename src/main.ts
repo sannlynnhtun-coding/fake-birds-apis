@@ -46,7 +46,7 @@ async function createApp() {
     .build();
   
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('/', app, document);
 
   await app.init();
   cachedApp = app;
@@ -58,7 +58,7 @@ async function bootstrap() {
   const port = process.env.PORT ? parseInt(process.env.PORT) : 3001;
   await app.listen(port, '0.0.0.0');
   console.log(`Application is running on: http://localhost:${port}`);
-  console.log(`Swagger documentation: http://localhost:${port}/api`);
+  console.log(`Swagger documentation: http://localhost:${port}/`);
   console.log(`API endpoints:`);
   console.log(`  - Auth: http://localhost:${port}/auth/login`);
   console.log(`  - Birds: http://localhost:${port}/birds`);
