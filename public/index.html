@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birds API - REST API Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .endpoint {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-right: 10px;
+            text-transform: uppercase;
+        }
+        
+        .method.get {
+            background: #61affe;
+            color: white;
+        }
+        
+        .method.post {
+            background: #49cc90;
+            color: white;
+        }
+        
+        .method.put {
+            background: #fca130;
+            color: white;
+        }
+        
+        .method.patch {
+            background: #50e3c2;
+            color: white;
+        }
+        
+        .method.delete {
+            background: #f93e3e;
+            color: white;
+        }
+        
+        .endpoint-url {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .endpoint-description {
+            margin-top: 10px;
+            color: #666;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        
+        .note strong {
+            color: #856404;
+        }
+        
+        .auth-badge {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            margin-top: 40px;
+        }
+        
+        .try-button {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 10px;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+        
+        .try-button:hover {
+            background: #5568d3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🦅 Birds API</h1>
+        <p>REST API for Birds Data with JWT Authentication</p>
+    </header>
+    
+    <div class="container">
+        <div class="section">
+            <h2>Base URL</h2>
+            <div class="endpoint">
+                <div class="endpoint-url">https://localhost:3001</div>
+                <div class="endpoint-description">All API requests should be made to this base URL</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Authentication</h2>
+            <p>Most endpoints require JWT authentication. First, obtain a token by logging in.</p>
+            
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <span class="endpoint-url">/auth/login</span>
+                <div class="endpoint-description">
+                    Login to get an access token
+                </div>
+                <div class="code-block">{
+  "username": "bpi",
+  "password": "bpi2023"
+}</div>
+                <div class="code-block">Response:
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}</div>
+            </div>
+            
+            <div class="note">
+                <strong>Note:</strong> Include the token in the Authorization header for protected endpoints:<br>
+                <code>Authorization: Bearer &lt;your_access_token&gt;</code>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Birds API</h2>
+            <p>All bird endpoints require authentication. Include the JWT token in the Authorization header.</p>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="endpoint-url">/birds</span>
+                <span class="auth-badge">Auth Required</span>
+                <div class="endpoint-description">
+                    Get all birds
+                </div>
+                <div class="code-block">Response: Array of bird objects
+[
+  {
+    "Id": 1,
+    "BirdMyanmarName": "ငှက်စိမ်းရင်ဝါ",
+    "BirdEnglishName": "Orange-bellied Leafbird",
+    "Description": "...",
+    "ImagePath": "img/birds/img/1_Orange-belliedLeafbird.jpg"
+  },
+  ...
+]</div>
+            </div>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="endpoint-url">/birds/:id</span>
+                <span class="auth-badge">Auth Required</span>
+                <div class="endpoint-description">
+                    Get a specific bird by ID
+                </div>
+                <div class="code-block">Example: GET /birds/1</div>
+            </div>
+            
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <span class="endpoint-url">/birds</span>
+                <span class="auth-badge">Auth Required</span>
+                <div class="endpoint-description">
+                    Create a new bird
+                </div>
+                <div class="code-block">Request Body:
+{
+  "BirdMyanmarName": "ငှက်အမည်",
+  "BirdEnglishName": "Bird Name",
+  "Description": "Description text",
+  "ImagePath": "img/birds/img/image.jpg"
+}</div>
+            </div>
+            
+            <div class="endpoint">
+                <span class="method put">PUT</span>
+                <span class="endpoint-url">/birds/:id</span>
+                <span class="auth-badge">Auth Required</span>
+                <div class="endpoint-description">
+                    Update a bird (full update)
+                </div>
+                <div class="code-block">Example: PUT /birds/1
+Request Body: (same as POST)</div>
+            </div>
+            
+            <div class="endpoint">
+                <span class="method patch">PATCH</span>
+                <span class="endpoint-url">/birds/:id</span>
+                <span class="auth-badge">Auth Required</span>
+                <div class="endpoint-description">
+                    Update a bird (partial update)
+                </div>
+                <div class="code-block">Example: PATCH /birds/1
+Request Body: (partial fields allowed)</div>
+            </div>
+            
+            <div class="endpoint">
+                <span class="method delete">DELETE</span>
+                <span class="endpoint-url">/birds/:id</span>
+                <span class="auth-badge">Auth Required</span>
+                <div class="endpoint-description">
+                    Delete a bird
+                </div>
+                <div class="code-block">Example: DELETE /birds/1
+Response:
+{
+  "message": "Bird deleted successfully"
+}</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Example Usage</h2>
+            <div class="code-block"># 1. Login to get token
+curl -X POST https://localhost:3001/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"bpi","password":"bpi2023"}'
+
+# 2. Get all birds (use token from step 1)
+curl -X GET https://localhost:3001/birds \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE"
+
+# 3. Get a specific bird
+curl -X GET https://localhost:3001/birds/1 \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE"
+
+# 4. Create a new bird
+curl -X POST https://localhost:3001/birds \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "BirdMyanmarName": "ငှက်အမည်",
+    "BirdEnglishName": "Bird Name",
+    "Description": "Description",
+    "ImagePath": "img/birds/img/image.jpg"
+  }'</div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Built with NestJS | RESTful API for Birds Data</p>
+    </footer>
+</body>
+</html>
+

@@ -14,7 +14,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BirdsController = void 0;
 const common_1 = require("@nestjs/common");
-const swagger_1 = require("@nestjs/swagger");
 const birds_service_1 = require("./birds.service");
 const create_bird_dto_1 = require("./dto/create-bird.dto");
 const update_bird_dto_1 = require("./dto/update-bird.dto");
@@ -47,20 +46,12 @@ let BirdsController = class BirdsController {
 exports.BirdsController = BirdsController;
 __decorate([
     (0, common_1.Get)(),
-    (0, swagger_1.ApiOperation)({ summary: 'Get all birds' }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'List of all birds' }),
-    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], BirdsController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    (0, swagger_1.ApiOperation)({ summary: 'Get a bird by ID' }),
-    (0, swagger_1.ApiParam)({ name: 'id', type: 'number', example: 1 }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Bird found' }),
-    (0, swagger_1.ApiResponse)({ status: 404, description: 'Bird not found' }),
-    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -68,9 +59,6 @@ __decorate([
 ], BirdsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
-    (0, swagger_1.ApiOperation)({ summary: 'Create a new bird' }),
-    (0, swagger_1.ApiResponse)({ status: 201, description: 'Bird created successfully' }),
-    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_bird_dto_1.CreateBirdDto]),
@@ -78,11 +66,6 @@ __decorate([
 ], BirdsController.prototype, "create", null);
 __decorate([
     (0, common_1.Put)(':id'),
-    (0, swagger_1.ApiOperation)({ summary: 'Update a bird (full update)' }),
-    (0, swagger_1.ApiParam)({ name: 'id', type: 'number', example: 1 }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Bird updated successfully' }),
-    (0, swagger_1.ApiResponse)({ status: 404, description: 'Bird not found' }),
-    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -91,11 +74,6 @@ __decorate([
 ], BirdsController.prototype, "update", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    (0, swagger_1.ApiOperation)({ summary: 'Update a bird (partial update)' }),
-    (0, swagger_1.ApiParam)({ name: 'id', type: 'number', example: 1 }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Bird updated successfully' }),
-    (0, swagger_1.ApiResponse)({ status: 404, description: 'Bird not found' }),
-    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -104,19 +82,12 @@ __decorate([
 ], BirdsController.prototype, "patch", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    (0, swagger_1.ApiOperation)({ summary: 'Delete a bird' }),
-    (0, swagger_1.ApiParam)({ name: 'id', type: 'number', example: 1 }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Bird deleted successfully' }),
-    (0, swagger_1.ApiResponse)({ status: 404, description: 'Bird not found' }),
-    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], BirdsController.prototype, "remove", null);
 exports.BirdsController = BirdsController = __decorate([
-    (0, swagger_1.ApiTags)('birds'),
-    (0, swagger_1.ApiBearerAuth)('JWT-auth'),
     (0, common_1.Controller)('birds'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [birds_service_1.BirdsService])
