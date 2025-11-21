@@ -3,10 +3,7 @@
   "buildCommand": "npm run build",
   "functions": {
     "api/[...].ts": {
-      "includeFiles": [
-        "public/**",
-        "dist/public/**"
-      ]
+      "includeFiles": "public/**"
     }
   },
   "builds": [

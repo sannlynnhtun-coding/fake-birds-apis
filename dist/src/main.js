@@ -24,11 +24,7 @@ async function createApp() {
     }, 'JWT-auth')
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);
-    swagger_1.SwaggerModule.setup('/', app, document, {
-        swaggerOptions: {
-            persistAuthorization: true,
-        },
-    });
+    swagger_1.SwaggerModule.setup('', app, document);
     app.enableCors();
     await app.init();
     cachedApp = app;
