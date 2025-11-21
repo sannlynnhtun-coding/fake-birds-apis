@@ -15,7 +15,11 @@ async function createApp() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   
   // Serve static files from public directory
-  app.useStaticAssets(join(__dirname, '..', 'public'), {
+  // Handle both local development and serverless environments
+  const publicPath = process.env.NODE_ENV === 'production' 
+    ? join(process.cwd(), 'public')
+    : join(__dirname, '..', 'public');
+  app.useStaticAssets(publicPath, {
     prefix: '/public/',
   });
   

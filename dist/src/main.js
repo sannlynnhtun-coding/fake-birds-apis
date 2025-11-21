@@ -11,7 +11,10 @@ async function createApp() {
         return cachedApp;
     }
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
-    app.useStaticAssets((0, path_1.join)(__dirname, '..', 'public'), {
+    const publicPath = process.env.NODE_ENV === 'production'
+        ? (0, path_1.join)(process.cwd(), 'public')
+        : (0, path_1.join)(__dirname, '..', 'public');
+    app.useStaticAssets(publicPath, {
         prefix: '/public/',
     });
     app.enableCors();

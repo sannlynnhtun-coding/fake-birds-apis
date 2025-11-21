@@ -7,10 +7,15 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse,
 ) {
-  if (!app) {
-    app = await createApp();
+  try {
+    if (!app) {
+      app = await createApp();
+    }
+    const expressApp = app.getHttpAdapter().getInstance();
+    return expressApp(req, res);
+  } catch (error) {
+    console.error('Error in Vercel handler:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-  const expressApp = app.getHttpAdapter().getInstance();
-  return expressApp(req, res);
 }
 
