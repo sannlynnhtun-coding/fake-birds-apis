@@ -42,11 +42,7 @@ async function createApp() {
     .build();
   
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('', app, document, {
-    swaggerOptions: {
-      persistAuthorization: true,
-    },
-  });
+  SwaggerModule.setup('', app, document);
 
   await app.init();
   cachedApp = app;

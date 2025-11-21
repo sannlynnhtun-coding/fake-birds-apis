@@ -31,11 +31,7 @@ async function createApp() {
         .addTag('birds', 'Birds CRUD operations')
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);
-    swagger_1.SwaggerModule.setup('', app, document, {
-        swaggerOptions: {
-            persistAuthorization: true,
-        },
-    });
+    swagger_1.SwaggerModule.setup('', app, document);
     await app.init();
     cachedApp = app;
     return app;
