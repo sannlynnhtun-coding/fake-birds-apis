@@ -12,7 +12,6 @@ async function createApp() {
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   
-  // Swagger configuration
   const config = new DocumentBuilder()
     .setTitle('Birds API')
     .setDescription('REST API for Birds Data with JWT Authentication')
@@ -29,13 +28,8 @@ async function createApp() {
       'JWT-auth',
     )
     .build();
-  
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('/', app, document, {
-    swaggerOptions: {
-      persistAuthorization: true,
-    },
-  });
+  SwaggerModule.setup('', app, document);
   
   app.enableCors(); // Enable CORS for API access
 
