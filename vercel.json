@@ -1,6 +1,14 @@
 {
   "version": 2,
   "buildCommand": "npm run build",
+  "functions": {
+    "api/[...].ts": {
+      "includeFiles": [
+        "public/**",
+        "dist/public/**"
+      ]
+    }
+  },
   "builds": [
     {
       "src": "api/[...].ts",
