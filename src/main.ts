@@ -5,7 +5,13 @@ import { join } from 'path';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Response } from 'express';
 
-async function bootstrap() {
+let cachedApp: NestExpressApplication;
+
+async function createApp() {
+  if (cachedApp) {
+    return cachedApp;
+  }
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   
   // Serve static files from public directory
@@ -36,15 +42,28 @@ async function bootstrap() {
     .build();
   
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document, {
+  SwaggerModule.setup('', app, document, {
     swaggerOptions: {
       persistAuthorization: true,
     },
   });
-  
-  const port = process.env.PORT ? parseInt(process.env.PORT) : 3001;
-  await app.listen(port, 'localhost');
-  console.log(`Application is running on: http://localhost:${port}`);
-  console.log(`Swagger documentation: http://localhost:${port}/api`);
+
+  await app.init();
+  cachedApp = app;
+  return app;
 }
-bootstrap();
+
+async function bootstrap() {
+  const app = await createApp();
+  const port = process.env.PORT ? parseInt(process.env.PORT) : 3001;
+  await app.listen(port, '0.0.0.0');
+  console.log(`Application is running on: http://0.0.0.0:${port}`);
+  console.log(`Swagger documentation: http://0.0.0.0:${port}/`);
+}
+
+// Only bootstrap if not in serverless environment
+if (require.main === module) {
+  bootstrap();
+}
+
+export { createApp };
