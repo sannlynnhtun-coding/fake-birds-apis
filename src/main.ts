@@ -49,7 +49,6 @@ async function bootstrap() {
   console.log(`  - Birds: http://localhost:${port}/birds`);
 }
 
-// Only bootstrap if not in serverless environment
 if (require.main === module) {
   bootstrap();
 }
