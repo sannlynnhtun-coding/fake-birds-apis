@@ -1,4 +1,4 @@
-import { createApp } from '../src/main';
+import { createApp } from '../dist/src/main';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 let app: any;
