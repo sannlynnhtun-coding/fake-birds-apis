@@ -24,7 +24,16 @@ async function createApp() {
     }, 'JWT-auth')
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);
-    swagger_1.SwaggerModule.setup('', app, document);
+    swagger_1.SwaggerModule.setup('', app, document, {
+        customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui.min.css',
+        customJs: [
+            'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-bundle.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-standalone-preset.js',
+        ],
+        swaggerOptions: {
+            persistAuthorization: true,
+        },
+    });
     app.enableCors();
     await app.init();
     cachedApp = app;
