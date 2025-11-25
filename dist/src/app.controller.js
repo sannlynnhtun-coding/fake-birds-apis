@@ -8,28 +8,38 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
-const path_1 = require("path");
 let AppController = class AppController {
-    getIndex(res) {
-        const projectRoot = process.env.NODE_ENV === 'production'
-            ? process.cwd()
-            : (0, path_1.join)(__dirname, '..', '..');
-        const indexPath = (0, path_1.join)(projectRoot, 'public', 'index.html');
-        res.sendFile(indexPath);
+    getIndex() {
+        return {
+            message: 'Birds API',
+            description: 'REST API for Birds Data',
+            versions: {
+                v1: {
+                    path: '/api/v1/birds',
+                    auth: false,
+                    description: 'No authentication required',
+                },
+                v2: {
+                    path: '/api/v2/birds',
+                    auth: true,
+                    description: 'JWT authentication required',
+                },
+            },
+            documentation: '/',
+            auth: {
+                login: '/api/auth/login',
+            },
+        };
     }
 };
 exports.AppController = AppController;
 __decorate([
     (0, common_1.Get)(),
-    __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "getIndex", null);
 exports.AppController = AppController = __decorate([

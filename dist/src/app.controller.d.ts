@@ -1,4 +1,22 @@
-import type { Response } from 'express';
 export declare class AppController {
-    getIndex(res: Response): void;
+    getIndex(): {
+        message: string;
+        description: string;
+        versions: {
+            v1: {
+                path: string;
+                auth: boolean;
+                description: string;
+            };
+            v2: {
+                path: string;
+                auth: boolean;
+                description: string;
+            };
+        };
+        documentation: string;
+        auth: {
+            login: string;
+        };
+    };
 }
