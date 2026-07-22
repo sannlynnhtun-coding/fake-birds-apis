@@ -5,24 +5,23 @@ export class CreateBirdDto {
     description: 'Bird name in Myanmar language',
     example: 'ငှက်စိမ်းရင်ဝါ',
   })
-  BirdMyanmarName: string;
+  BirdMyanmarName!: string;
 
   @ApiProperty({
     description: 'Bird name in English',
     example: 'Orange-bellied Leafbird',
   })
-  BirdEnglishName: string;
+  BirdEnglishName!: string;
 
   @ApiProperty({
     description: 'Bird description',
     example: 'A beautiful green bird with yellow belly...',
   })
-  Description: string;
+  Description!: string;
 
   @ApiProperty({
     description: 'Path to bird image (relative to public/birds/)',
     example: 'img/1_Orange-belliedLeafbird.jpg',
   })
-  ImagePath: string;
+  ImagePath!: string;
 }
-

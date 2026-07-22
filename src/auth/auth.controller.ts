@@ -3,8 +3,8 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 
 export class LoginDto {
-  username: string;
-  password: string;
+  username!: string;
+  password!: string;
 }
 
 @ApiTags('auth')
@@ -29,13 +29,16 @@ export class AuthController {
     schema: {
       type: 'object',
       properties: {
-        access_token: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' },
+        access_token: {
+          type: 'string',
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        },
       },
     },
   })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
-  async login(@Body() loginDto: LoginDto) {
-    const user = await this.authService.validateUser(
+  login(@Body() loginDto: LoginDto) {
+    const user = this.authService.validateUser(
       loginDto.username,
       loginDto.password,
     );
@@ -45,4 +48,3 @@ export class AuthController {
     return this.authService.login(user);
   }
 }
-
