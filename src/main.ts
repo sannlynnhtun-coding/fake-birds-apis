@@ -94,7 +94,7 @@ async function bootstrap() {
   );
 }
 
-if (require.main === module) {
+if (process.env.NODE_ENV !== 'test') {
   void bootstrap();
 }
 

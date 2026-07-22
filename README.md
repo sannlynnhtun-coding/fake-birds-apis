@@ -68,6 +68,6 @@ npm run test:e2e
 
 ## Vercel deployment
 
-The repository includes Vercel routing for the NestJS handler while allowing files in `public/` to be served before the API catch-all rewrite.
+Vercel detects `src/main.ts` as a NestJS entry point, so no custom handler or catch-all rewrite is required. Files in `public/` are served by Vercel's static-file CDN.
 
 Bird mutations are stored only in the running process. They can reset on a Vercel cold start or deployment and can differ between concurrent instances. Use an external database before treating this sample as a persistent production CRUD service.
