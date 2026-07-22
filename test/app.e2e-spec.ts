@@ -41,6 +41,15 @@ describe('Birds API (e2e)', () => {
       .expect(({ text }) => expect(text).toContain('Scalar API Reference'));
   });
 
+  it('serves the current endpoints to Swagger UI', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/swagger-ui-init.js')
+      .expect(200);
+
+    expect(response.text).toContain('"/api/v1/birds"');
+    expect(response.text).toContain('"/api/v2/birds"');
+  });
+
   it('returns 200 for a successful login', async () => {
     const response = await request(app.getHttpServer())
       .post('/api/auth/login')
