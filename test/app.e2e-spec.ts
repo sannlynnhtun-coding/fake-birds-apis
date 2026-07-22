@@ -1,6 +1,6 @@
 import request from 'supertest';
 import type { OpenAPIObject } from '@nestjs/swagger';
-import { createApp } from './../src/main';
+import handler, { createApp } from './../src/main';
 import type { LoginResponseDto } from './../src/auth/auth.controller';
 import type { BirdResponseDto } from './../src/birds/dto/bird-response.dto';
 
@@ -13,6 +13,9 @@ const birdPayload = {
 
 describe('Birds API (e2e)', () => {
   let app: Awaited<ReturnType<typeof createApp>>;
+
+  it('serves requests through the Vercel handler', () =>
+    request(handler).get('/api').expect(200));
 
   beforeAll(async () => {
     app = await createApp();

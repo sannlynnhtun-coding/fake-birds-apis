@@ -4,6 +4,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { join } from 'node:path';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
 let cachedApp: NestExpressApplication;
 
@@ -94,8 +95,16 @@ async function bootstrap() {
   );
 }
 
-if (process.env.NODE_ENV !== 'test') {
+if (require.main === module) {
   void bootstrap();
+}
+
+export default async function handler(
+  req: IncomingMessage,
+  res: ServerResponse,
+) {
+  const app = await createApp();
+  app.getHttpAdapter().getInstance()(req, res);
 }
 
 export { createApp };
