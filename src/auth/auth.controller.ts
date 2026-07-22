@@ -1,10 +1,38 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
+import {
+  ApiOkResponse,
+  ApiOperation,
+  ApiProperty,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { AuthService } from './auth.service';
 
 export class LoginDto {
+  @ApiProperty({ example: 'bpi' })
+  @IsString()
+  @IsNotEmpty()
   username!: string;
+
+  @ApiProperty({ example: 'bpi2023' })
+  @IsString()
+  @IsNotEmpty()
   password!: string;
+}
+
+export class LoginResponseDto {
+  @ApiProperty({
+    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+  })
+  access_token!: string;
 }
 
 @ApiTags('auth')
@@ -13,30 +41,13 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Login to get an access token' })
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        username: { type: 'string', example: 'bpi' },
-        password: { type: 'string', example: 'bpi2023' },
-      },
-    },
-  })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Login successful',
-    schema: {
-      type: 'object',
-      properties: {
-        access_token: {
-          type: 'string',
-          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-        },
-      },
-    },
+    type: LoginResponseDto,
   })
-  @ApiResponse({ status: 401, description: 'Invalid credentials' })
+  @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
   login(@Body() loginDto: LoginDto) {
     const user = this.authService.validateUser(
       loginDto.username,

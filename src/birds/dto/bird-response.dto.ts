@@ -1,38 +1,30 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, Matches } from 'class-validator';
 
-export class CreateBirdDto {
+export class BirdResponseDto {
+  @ApiProperty({ example: 1 })
+  id!: number;
+
   @ApiProperty({
     description: 'Bird name in Myanmar language',
     example: 'ငှက်စိမ်းရင်ဝါ',
   })
-  @IsString()
-  @IsNotEmpty()
   birdMyanmarName!: string;
 
   @ApiProperty({
     description: 'Bird name in English',
     example: 'Orange-bellied Leafbird',
   })
-  @IsString()
-  @IsNotEmpty()
   birdEnglishName!: string;
 
   @ApiProperty({
     description: 'Bird description',
     example: 'A beautiful green bird with a yellow belly.',
   })
-  @IsString()
-  @IsNotEmpty()
   description!: string;
 
   @ApiProperty({
     description: 'Public URL of the bird image',
     example: '/birds/img/1_Orange-belliedLeafbird.jpg',
-  })
-  @IsString()
-  @Matches(/^\/birds\/img\/(?!\.{1,2}$)[^/\\]+$/, {
-    message: 'imagePath must use /birds/img/file.ext format',
   })
   imagePath!: string;
 }

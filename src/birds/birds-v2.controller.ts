@@ -17,11 +17,14 @@ import {
   ApiResponse,
   ApiParam,
   ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
 } from '@nestjs/swagger';
 import { BirdsService } from './birds.service';
 import { CreateBirdDto } from './dto/create-bird.dto';
 import { UpdateBirdDto } from './dto/update-bird.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { BirdResponseDto } from './dto/bird-response.dto';
 
 @ApiTags('birds-v2')
 @ApiBearerAuth('JWT-auth')
@@ -33,7 +36,11 @@ export class BirdsV2Controller {
   @Get()
   @Version('2')
   @ApiOperation({ summary: 'Get all birds (v2 - Auth Required)' })
-  @ApiResponse({ status: 200, description: 'List of all birds' })
+  @ApiOkResponse({
+    description: 'List of all birds',
+    type: BirdResponseDto,
+    isArray: true,
+  })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   findAll() {
     return this.birdsService.findAll();
@@ -43,7 +50,7 @@ export class BirdsV2Controller {
   @Version('2')
   @ApiOperation({ summary: 'Get a specific bird by ID (v2 - Auth Required)' })
   @ApiParam({ name: 'id', type: 'number', description: 'Bird ID' })
-  @ApiResponse({ status: 200, description: 'Bird details' })
+  @ApiOkResponse({ description: 'Bird details', type: BirdResponseDto })
   @ApiResponse({ status: 404, description: 'Bird not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   findOne(@Param('id', ParseIntPipe) id: number) {
@@ -53,7 +60,10 @@ export class BirdsV2Controller {
   @Post()
   @Version('2')
   @ApiOperation({ summary: 'Create a new bird (v2 - Auth Required)' })
-  @ApiResponse({ status: 201, description: 'Bird created successfully' })
+  @ApiCreatedResponse({
+    description: 'Bird created successfully',
+    type: BirdResponseDto,
+  })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   create(@Body() createBirdDto: CreateBirdDto) {
     return this.birdsService.create(createBirdDto);
@@ -63,21 +73,29 @@ export class BirdsV2Controller {
   @Version('2')
   @ApiOperation({ summary: 'Update a bird (full update) (v2 - Auth Required)' })
   @ApiParam({ name: 'id', type: 'number', description: 'Bird ID' })
-  @ApiResponse({ status: 200, description: 'Bird updated successfully' })
+  @ApiOkResponse({
+    description: 'Bird replaced successfully',
+    type: BirdResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Bird not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateBirdDto: UpdateBirdDto,
+    @Body() createBirdDto: CreateBirdDto,
   ) {
-    return this.birdsService.update(id, updateBirdDto);
+    return this.birdsService.replace(id, createBirdDto);
   }
 
   @Patch(':id')
   @Version('2')
-  @ApiOperation({ summary: 'Update a bird (partial update) (v2 - Auth Required)' })
+  @ApiOperation({
+    summary: 'Update a bird (partial update) (v2 - Auth Required)',
+  })
   @ApiParam({ name: 'id', type: 'number', description: 'Bird ID' })
-  @ApiResponse({ status: 200, description: 'Bird updated successfully' })
+  @ApiOkResponse({
+    description: 'Bird updated successfully',
+    type: BirdResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Bird not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   patch(
@@ -99,4 +117,3 @@ export class BirdsV2Controller {
     return { message: 'Bird deleted successfully' };
   }
 }
-

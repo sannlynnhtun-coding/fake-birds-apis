@@ -1,28 +1,4 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { PartialType } from '@nestjs/swagger';
+import { CreateBirdDto } from './create-bird.dto';
 
-export class UpdateBirdDto {
-  @ApiPropertyOptional({
-    description: 'Bird name in Myanmar language',
-    example: 'ငှက်စိမ်းရင်ဝါ',
-  })
-  BirdMyanmarName?: string;
-
-  @ApiPropertyOptional({
-    description: 'Bird name in English',
-    example: 'Orange-bellied Leafbird',
-  })
-  BirdEnglishName?: string;
-
-  @ApiPropertyOptional({
-    description: 'Bird description',
-    example: 'A beautiful green bird with yellow belly...',
-  })
-  Description?: string;
-
-  @ApiPropertyOptional({
-    description: 'Path to bird image (relative to public/birds/)',
-    example: 'img/1_Orange-belliedLeafbird.jpg',
-  })
-  ImagePath?: string;
-}
-
+export class UpdateBirdDto extends PartialType(CreateBirdDto) {}
