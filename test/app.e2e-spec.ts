@@ -42,6 +42,15 @@ describe('Birds API (e2e)', () => {
   });
 
   it('serves the current endpoints to Swagger UI', async () => {
+    await request(app.getHttpServer())
+      .get('/swagger-ui.css')
+      .expect(200)
+      .expect('Content-Type', /css/);
+    await request(app.getHttpServer())
+      .get('/swagger-ui-bundle.js')
+      .expect(200)
+      .expect('Content-Type', /javascript/);
+
     const response = await request(app.getHttpServer())
       .get('/swagger-ui-init.js')
       .expect(200);
