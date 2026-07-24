@@ -56,6 +56,14 @@ export class BirdsService {
   }
 
   update(id: number, updateBirdDto: UpdateBirdDto): BirdResponseDto {
+    if (
+      typeof updateBirdDto !== 'object' ||
+      updateBirdDto === null ||
+      Array.isArray(updateBirdDto)
+    ) {
+      throw new BadRequestException('Request body must be a JSON object');
+    }
+
     if (Object.keys(updateBirdDto).length === 0) {
       throw new BadRequestException('At least one field is required');
     }

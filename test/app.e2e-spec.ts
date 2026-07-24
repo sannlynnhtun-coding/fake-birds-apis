@@ -132,6 +132,31 @@ describe('Birds API (e2e)', () => {
     const replaced = replaceResponse.body as BirdResponseDto;
     expect(replaced).toEqual({ id: created.id, ...replacement });
 
+    const fullPatch = {
+      ...replacement,
+      birdEnglishName: 'Fully Patched Bird',
+    };
+    const fullPatchResponse = await request(app.getHttpServer())
+      .patch(`/api/v1/birds/${created.id}`)
+      .send(fullPatch)
+      .expect(200);
+    expect(fullPatchResponse.body as BirdResponseDto).toEqual({
+      id: created.id,
+      ...fullPatch,
+    });
+
+    await request(app.getHttpServer())
+      .patch(`/api/v1/birds/${created.id}`)
+      .type('text')
+      .send(JSON.stringify(fullPatch))
+      .expect(400);
+
+    await request(app.getHttpServer())
+      .patch(`/api/v1/birds/${created.id}`)
+      .set('Content-Type', 'application/json')
+      .send(JSON.stringify(JSON.stringify(fullPatch)))
+      .expect(400);
+
     const patchResponse = await request(app.getHttpServer())
       .patch(`/api/v1/birds/${created.id}`)
       .send({ description: 'Partially updated.' })
@@ -139,7 +164,7 @@ describe('Birds API (e2e)', () => {
     const patched = patchResponse.body as BirdResponseDto;
     expect(patched).toEqual({
       id: created.id,
-      ...replacement,
+      ...fullPatch,
       description: 'Partially updated.',
     });
 
